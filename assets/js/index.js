@@ -52,3 +52,30 @@ function getUsers(value, user) {
     }
   );
 }
+
+function getDropdownData(user, type) {
+  if ($(".dropdown_data_window").css("display") == "none") {
+    let pageName;
+    if (type == "notification") {
+    } else if (type == "message") {
+      pageName = "ajax_load_messages.php";
+      $("span").remove("#unread_message");
+    }
+
+    let ajaxReq = $.ajax({
+      url: "includes/handlers/" + pageName,
+      type: "POST",
+      data: "page=1&userLoggedIn=" + user,
+      cache: false,
+
+      success: function(response) {
+        $(".dropdown_data_window").html(response);
+        $(".dropdown_data_window").css({ display: "flex" });
+        $("#dropdown_data_type").val(type);
+      }
+    });
+  } else {
+    $(".dropdown_data_window").html("");
+    $(".dropdown_data_window").css({ display: "none" });
+  }
+}

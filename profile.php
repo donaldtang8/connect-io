@@ -1,6 +1,8 @@
 <?php
 include("includes/header.php");
 
+$message_obj = new Message($con, $userLoggedIn);
+
 // from rewrite rule of .htaccess
 if (isset($_GET['profile_username'])) {
     $username = $_GET['profile_username'];
@@ -23,6 +25,21 @@ if (isset($_POST['add_friend'])) {
 
 if (isset($_POST['respond_request_friend'])) {
     header("Location: requests.php");
+}
+
+if (isset($_POST['post_message'])) {
+    if (isset($_POST['message_body'])) {
+        $body = mysqli_real_escape_string($con, $_POST['message_body']);
+        $date = date("Y-m-d");
+        $message_obj->sendMessage($username, $body, $date);
+    }
+
+    $link = '#profile_tabs a[href="#messages"]';
+    echo "<script>
+        $(function() {
+            $('" . $link . "').tab('show');
+        });
+    </script>";
 }
 ?>
 <div class="profile">
@@ -71,12 +88,46 @@ if (isset($_POST['respond_request_friend'])) {
         </div>
     </div>
     <div class="profile_main">
-        <div class="profile_button">
-            <input class="btn btn-primary" type="submit" data-toggle="modal" data-target="#post_form" value="Create a post" />
+
+        <ul class="nav nav-tabs" role="tablist" id="profile_tabs">
+            <li role="presentation" class="nav-item active">
+                <a class="nav-link active" href="#newsfeed" data-toggle="tab">Newsfeed</a>
+            </li>
+            <li role="presentation" class="nav-item">
+                <a class="nav-link" href="#messages" data-toggle="tab">Messages</a>
+            </li>
+
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="newsfeed">
+                <div class="profile_button">
+                    <input class="btn btn-primary" type="submit" data-toggle="modal" data-target="#post_form" value="Create a post" />
+                </div>
+                <div class="posts">
+                </div>
+                <div class="loading">Loading...</div>
+            </div>
+            <div class="tab-pane" id="messages">
+                <?php
+                echo "<div class='heading-1'>You and <a href='" . $username . "'>" . $profile_user_obj->getFirstAndLastName() . "</a><hr></div>";
+                echo "<div class='loaded_messages scroll_messages' id='scroll_messages'>";
+                echo $message_obj->getMessages($username);
+                echo "</div>";
+                ?>
+
+                <div class="message_post">
+                    <hr>
+                    <form class="message_post-form" action="" method="POST">
+                        <div class='message_compose'><textarea name='message_body' class='message_textarea' placeholder='Write your message'></textarea><input type='submit' name='post_message' class='btn message_submit' value='Send' /></div>
+                    </form>
+                </div>
+                <script>
+                    var div = document.getElementById("scroll_messages");
+                    div.scrollTop = div.scrollHeight;
+                </script>
+            </div>
         </div>
-        <div class="posts">
-        </div>
-        <div class="loading">Loading...</div>
     </div>
 
 

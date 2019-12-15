@@ -1,3 +1,14 @@
+:root {
+  --light-gray: #e8e8e8;
+  --dark-gray: #3e3d66;
+  --light-color: #fff;
+  --dark-color: #333;
+  --danger-color: #ef5350;
+  --primary-color: #a39cf4;
+  --primary-color-light: #d4d1fa;
+  --primary-color-dark: #7166ee;
+}
+
 /* CONTAINER STYLES */
 .container {
   width: 50%;
@@ -36,6 +47,7 @@ a:hover {
 }
 
 /* COMPONENTS STYLES */
+/* BUTTONS */
 .btn {
   font-size: 1.6rem;
   font-weight: 700;
@@ -53,15 +65,87 @@ a:hover {
   border-color: var(--primary-color);
 }
 
+.btn-primary:active,
+.btn-primary:active:focus,
+.btn-primary:focus,
 .btn-primary:hover {
-  background: var(--primary-color-dark);
-  border-color: var(--primary-color-dark);
+  background: var(--primary-color-dark) !important;
+  border-color: var(--primary-color-dark) !important;
+  box-shadow: none;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: none;
+}
+
+/* DROP DOWNS */
+.dropdown_data_window {
+  display: flex;
+  position: absolute;
+  background: white;
+  flex-direction: column;
+  right: 1rem;
+  font-size: 1.5rem;
+  border: 1px solid var(--light-gray);
+  box-shadow: 0 0 0.5rem var(--light-gray);
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.dropdown_data_window-item {
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.dropdown_data_window-convoItem {
+  display: flex;
+  padding: 1rem;
+  align-items: center;
+}
+
+.dropdown_data_window-convo {
+  width: 100%;
+}
+
+.dropdown_data_window img {
+  height: 8rem;
+  width: 8rem;
+  border-radius: 85%;
+  padding: 0.5rem;
+}
+
+.dropdown_data_window-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdown_data_window-timestamp,
+.dropdown_data_window-msg {
+  color: var(--dark-color);
+}
+
+.convos_item-end {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* NAV TABS */
+.nav-tabs .nav-item .nav-link {
+  padding: 1.5rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.nav-tabs .nav-item .active {
+  background: var(--primary-color);
+  color: var(--light-color);
 }
 
 /* HEADER STYLES */
 nav {
   font-size: 1.6rem;
   height: 6vh;
+  position: relative;
 }
 
 /* .navbar {
@@ -286,8 +370,14 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
   grid-row: 3 / 4;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
   text-align: center;
   padding: 1rem 0;
+}
+
+.post_item .post_item-actions i,
+.post_like-btn .fas {
+  color: var(--primary-color);
 }
 
 .post_item .post_item-actionLikes {
@@ -305,10 +395,20 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
   margin: 0;
 }
 
+.post_item-likeIFrameBody:hover,
+.post_like-btn:hover,
+.post_like:hover {
+  cursor: pointer;
+}
+
 .post_comment {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.post_comment:hover {
+  cursor: pointer;
 }
 
 .post_item-numComments {
@@ -337,6 +437,10 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
 .post_like-btn:focus {
   outline: none;
   border: none;
+}
+
+.like i {
+  color: var(--primary-color);
 }
 
 /* COMMENTS SECTION */
@@ -629,6 +733,13 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
 }
 
 /* MESSAGES */
+#messages {
+  background: var(--light-color);
+  padding: 1rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
 .messages_convoList {
   display: flex;
   font-size: 1.6rem;
@@ -639,8 +750,14 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
 }
 
 .messages_convoList-convo {
+  text-align: left;
   width: max-content;
   margin-left: 1rem;
+}
+
+.messages_convoList-header {
+  display: flex;
+  justify-content: space-between;
 }
 
 .messages_convoList-timestamp {
@@ -680,7 +797,7 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
   flex-direction: column;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
-  height: 65vh;
+  height: 60vh;
   overflow: auto;
 }
 
@@ -763,6 +880,11 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
   background: var(--primary-color);
   color: var(--light-color);
   border-radius: 2rem;
+}
+
+.message_submit:hover {
+  background: var(--primary-color-dark);
+  color: var(--light-color);
 }
 
 /* FRIEND SEARCH MESSAGE */

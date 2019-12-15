@@ -25,7 +25,7 @@ if (isset($_POST["post"])) {
     <div class="home_main">
         <form class="post_form" action="index.php" method="POST">
             <a class="post_pic" href="<?php echo $userLoggedIn ?>"> <img src="<?php echo $user["profile_pic"]; ?>" alt="<?php echo $user["first_name"] . " " . $user["last_name"]; ?>"></a>
-            <textarea class="post_text" name="post_text" id="post_text" placeholder="What are you up to today?"></textarea>
+            <textarea class="post_text" name="post_text" id="post_text" placeholder="What are you up to today?" minlength="1" required></textarea>
             <input class="btn btn-primary post_button" type="submit" name="post" id="post_button" value="Post">
         </form>
         <hr />

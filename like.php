@@ -65,12 +65,12 @@
 
     if ($num_rows > 0) {
         echo '<form class="post_like" action="like.php?post_id=' . $post_id . '" method="POST">
-        <button type="submit" class="post_like-btn" name="unlike_button"><i class="fas fa-heart"></i><div class="post_item-numLikes">' . $total_likes . '</div></button>
+        <button type="submit" class="post_like-btn unlike" name="unlike_button"><i class="fas fa-heart"></i><div class="post_item-numLikes">' . $total_likes . '</div></button>
         </form>
             ';
     } else {
         echo '<form class="post_like" action="like.php?post_id=' . $post_id . '" method="POST">
-        <button type="submit" class="post_like-btn" name="like_button"><i class="fas fa-heart"></i><div class="post_item-numLikes">' . $total_likes . '</div></button>
+        <button type="submit" class="post_like-btn like" name="like_button"><i class="far fa-heart"></i><div class="post_item-numLikes">' . $total_likes . '</div></button>
         </form>
     ';
     }

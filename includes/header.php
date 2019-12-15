@@ -61,7 +61,7 @@ else {
                     <a class="nav-link" href="index.php"><i class="fas fa-home fa-lg"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="messages.php"><i class="fas fa-comment fa-lg"></i></a>
+                    <a class="nav-link" href="javascript:void(0);" onclick="getDropdownData('<?php echo $userLoggedIn; ?>', 'message')"><i class="fas fa-comment fa-lg"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="requests.php"><i class="fas fa-users fa-lg"></i></a>
@@ -78,5 +78,9 @@ else {
             </ul>
         </div>
     </nav>
+
+    <div class="dropdown_data_window">
+        <input type="hidden" id="dropdown_data_type" />
+    </div>
 
     <div class=".container">
