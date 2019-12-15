@@ -1,0 +1,113 @@
+form {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(rgba(50, 50, 50, 0.5), rgba(50, 50, 50, 0.5)),
+    url("../images/background/background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.block {
+  text-align: center;
+  padding: 5rem 10rem;
+  border-radius: 1rem;
+  background: var(--light-color);
+  box-shadow: 0 5rem 10rem rgba(var(--dark-color), 0.2);
+  opacity: 0.9;
+}
+
+.heading {
+  font-size: 3.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: inherit;
+  border-bottom: 2px solid var(--dark-color);
+}
+
+.show {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login {
+  display: flex;
+}
+
+.register {
+  display: none;
+}
+
+input {
+  display: block;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid #e6ecf0;
+  width: 100%;
+  /* border: none;
+  border-bottom: 1px solid black; */
+}
+
+input::placeholder {
+  padding: 0.5rem;
+}
+
+input:active,
+input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 1rem 2rem rgba(var(--dark-color), 0.1);
+}
+
+input:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+input[type="submit"] {
+  display: inline-block;
+  border: none;
+  color: var(--light-color);
+  font-weight: 700;
+  background: var(--primary-color);
+  padding: 1.5rem 3rem;
+  transition: all 0.2s;
+}
+
+input[type="submit"]:hover {
+  background: var(--primary-color-dark);
+  cursor: pointer;
+  box-shadow: 0 2rem 5rem rgba(var(--dark-color), 0.15);
+  transform: translateY(-2px);
+}
+
+input[type="submit"]:active {
+  box-shadow: 0 1rem 2rem rgba(var(--dark-color), 0.15);
+  transform: translateY(0);
+}
+
+.desc {
+  font-size: 1.5rem;
+  padding-top: 2rem;
+}
+
+.redirect {
+  color: var(--primary-color-dark);
+  cursor: pointer;
+}
+
+.error {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--danger-color);
+  padding: 1rem;
+}

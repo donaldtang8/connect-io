@@ -1,0 +1,30 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+:root {
+  --light-gray: #e8e8e8;
+  --dark-gray: #3e3d66;
+  --light-color: #fff;
+  --dark-color: #333;
+  --danger-color: #ef5350;
+  --primary-color: #a39cf4;
+  --primary-color-light: #d4d1fa;
+  --primary-color-dark: #7166ee;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  background-color: #e8e8e8;
+}
