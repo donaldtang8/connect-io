@@ -180,7 +180,7 @@ class Message
         // set messages to viewed
         $set_viewed_query = mysqli_query($this->con, "UPDATE messages SET viewed='yes' WHERE user_to='$userLoggedIn'");
 
-        $query = mysqli_query($this->con, "SELECT user_to, user_from FROM messages WHERE user_to='$userLoggedIn' OR user_from='$userLoggedIn'");
+        $query = mysqli_query($this->con, "SELECT user_to, user_from FROM messages WHERE user_to='$userLoggedIn' OR user_from='$userLoggedIn' ORDER BY id DESC");
 
         while ($row = mysqli_fetch_array($query)) {
             $user_to_push = ($row['user_to'] != $userLoggedIn) ? $row['user_to'] : $row['user_from'];
@@ -205,7 +205,7 @@ class Message
 
             $is_unread_query = mysqli_query($this->con, "SELECT opened FROM messages WHERE user_to='$userLoggedIn' AND user_from='$username' ORDER BY id DESC");
             $row = mysqli_fetch_array($is_unread_query);
-            $style = ($row['opened'] == 'no') ? "background-color: var(--primary-color);" : "";
+            $style = ($row['opened'] == 'no') ? "background-color: var(--primary-color-light);" : "";
 
             $user_found_obj = new User($this->con, $username);
             $latest_message_details = $this->getLatestMessage($userLoggedIn, $username);
@@ -227,12 +227,21 @@ class Message
 
         // if convos loaded
         if ($count > $limit)
-            $return_string .= "<input type='hidden' class='nextPageDropDownData' value='" . ($page + 1) . "' />
-                                <input type='hidden' class='noMoreDropDownData' value='false' />;";
+            $return_string .= "<input type='hidden' class='nextPageDropdownData' value='" . ($page + 1) . "' />
+                                <input type='hidden' class='noMoreDropdownData' value='false' />
+                                <input type='hidden' id='dropdown_data_type' value='message' />";
         else
-            $return_string .= "<input type='hidden' class='noMoreDropDownData' value='true' />
-                                <p class='convos_item-end'>No more conversations</p>";
+            $return_string .= "<input type='hidden' class='noMoreDropdownData' value='true' />
+                                <p class='convos_item-end'>No more conversations</p>
+                                <input type='hidden' id='dropdown_data_type' value='message' />";
 
         return $return_string;
+    }
+
+    public function getUnreadNumber()
+    {
+        $userLoggedIn = $this->user_obj->getUsername();
+        $query = mysqli_query($this->con, "SELECT * FROM messages WHERE opened='no' AND user_to='$userLoggedIn'");
+        return mysqli_num_rows($query);
     }
 }

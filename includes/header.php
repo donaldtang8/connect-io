@@ -3,6 +3,7 @@ require "config/config.php";
 include("includes/classes/User.php");
 include("includes/classes/Post.php");
 include("includes/classes/Message.php");
+include("includes/classes/Notification.php");
 
 // if there is a username in session, then user is logged in
 if (isset($_SESSION["username"])) {
@@ -41,6 +42,19 @@ else {
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <?php
+        // Unread messages 
+        $messages = new Message($con, $userLoggedIn);
+        $num_messages = $messages->getUnreadNumber();
+
+        // Unread notifications
+        $notifications = new Notification($con, $userLoggedIn);
+        $num_notifications = $notifications->getUnreadNumber();
+
+        // Friend requests
+        $user_obj = new User($con, $userLoggedIn);
+        $num_requests = $user_obj->getRequestCount();
+        ?>
         <a class="navbar-brand" href="index.php">Social Media</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -61,13 +75,31 @@ else {
                     <a class="nav-link" href="index.php"><i class="fas fa-home fa-lg"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);" onclick="getDropdownData('<?php echo $userLoggedIn; ?>', 'message')"><i class="fas fa-comment fa-lg"></i></a>
+                    <a class="nav-link" href="requests.php">
+                        <i class="fas fa-users fa-lg"></i>
+                        <?php
+                                                                                        if ($num_requests > 0)
+                                                                                            echo '<span class="notification_badge" id="unread_requests">' . $num_requests . '</span>';
+                        ?>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="requests.php"><i class="fas fa-users fa-lg"></i></a>
+                    <a class="nav-link" href="javascript:void(0);" onclick="getDropdownData('<?php echo $userLoggedIn; ?>', 'message')">
+                        <i class="fas fa-comment fa-lg"></i>
+                        <?php
+                                                                                                if ($num_messages > 0)
+                                                                                                    echo '<span class="notification_badge" id="unread_message">' . $num_messages . '</span>';
+                        ?>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-bell fa-lg"></i></a>
+                    <a class="nav-link" href="javascript:void(0);" onclick="getDropdownData('<?php echo $userLoggedIn; ?>', 'notification')">
+                        <i class="fas fa-bell fa-lg"></i>
+                        <?php
+                                                                                                if ($num_notifications > 0)
+                                                                                                    echo '<span class="notification_badge" id="unread_notification">' . $num_notifications . '</span>';
+                        ?>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fas fa-cog fa-lg"></i></a>
@@ -80,7 +112,47 @@ else {
     </nav>
 
     <div class="dropdown_data_window">
-        <input type="hidden" id="dropdown_data_type" />
+        <input type="hidden" id="dropdown_data_type" value="" />
     </div>
+
+    <script>
+        var userLoggedIn = '<?php echo $userLoggedIn; ?>';
+
+        $(document).ready(function() {
+
+            $(".dropdown_data_window").scroll(function() {
+                var inner_height = $(".dropdown_data_window").innerHeight();
+                var scroll_top = $(".dropdown_data_window").scrollTop(); // dynamically tracks the top of the page on scrollbar
+                var page = $(".dropdown_data_window").find(".nextPageDropdownData").val(); // this will retrieve the value of the hidden input field to get page count
+                var noMoreData = $(".dropdown_data_window").find(".noMoreDropdownData").val(); // this will retrieve the value of hidden input field to get boolean if there are any posts to find
+
+                // if we scroll to the bottom and "noMorePosts" is false, we make another ajax request to fetch posts
+                if ((scroll_top + inner_height >= $(".dropdown_data_window")[0].scrollHeight) && noMoreData == "false") {
+                    // name of page to send ajax request to
+                    var pageName;
+                    var type = $("#dropdown_data_type").val();
+
+                    if (type == "notification")
+                        pageName = "ajax_load_notifications.php";
+                    else if (type == "message")
+                        pageName = "ajax_load_messages.php";
+
+                    var ajaxReq = $.ajax({
+                        url: "includes/handlers/" + pageName,
+                        type: "POST",
+                        data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
+                        cache: false,
+
+                        success: function(response) {
+                            $(".dropdown_data_window").find(".nextPageDropdownData").remove(); // removes current .nextpage
+                            $(".dropdown_data_window").find(".noMoreDropdownData").remove(); // removes current .noMoreMsgs
+                            $(".dropdown_data_window").append(response);
+                        }
+                    });
+                }
+                return false;
+            });
+        });
+    </script>
 
     <div class=".container">

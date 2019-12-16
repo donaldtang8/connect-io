@@ -3,9 +3,9 @@
   --dark-gray: #3e3d66;
   --light-color: #fff;
   --dark-color: #333;
-  --danger-color: #ef5350;
+  --danger-color: #ff231f;
   --primary-color: #a39cf4;
-  --primary-color-light: #d4d1fa;
+  --primary-color-light: #dddbff;
   --primary-color-dark: #7166ee;
 }
 
@@ -81,9 +81,9 @@ a:hover {
 
 /* DROP DOWNS */
 .dropdown_data_window {
-  display: flex;
+  visibility: hidden;
   position: absolute;
-  background: white;
+  background: var(--light-color);
   flex-direction: column;
   right: 1rem;
   font-size: 1.5rem;
@@ -91,6 +91,9 @@ a:hover {
   box-shadow: 0 0 0.5rem var(--light-gray);
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
+  max-height: 30rem;
+  width: 30rem;
+  overflow: auto;
 }
 
 .dropdown_data_window-item {
@@ -108,8 +111,8 @@ a:hover {
 }
 
 .dropdown_data_window img {
-  height: 8rem;
-  width: 8rem;
+  height: 7rem;
+  width: 7rem;
   border-radius: 85%;
   padding: 0.5rem;
 }
@@ -117,6 +120,10 @@ a:hover {
 .dropdown_data_window-header {
   display: flex;
   justify-content: space-between;
+}
+
+.dropdown_data_window-name {
+  font-weight: 700;
 }
 
 .dropdown_data_window-timestamp,
@@ -127,6 +134,20 @@ a:hover {
 .convos_item-end {
   margin-top: 1rem;
   text-align: center;
+}
+
+.notification_badge {
+  position: absolute;
+  top: -0.5rem;
+  right: 10%;
+  height: min-content;
+
+  background: var(--danger-color);
+  font-size: 1.35rem;
+  line-height: 1;
+  padding: 0.3rem;
+  color: var(--light-color);
+  border-radius: 1rem;
 }
 
 /* NAV TABS */
@@ -169,6 +190,7 @@ nav .navbar-collapse .navbar-nav {
 nav .navbar-collapse .navbar-nav .nav-item {
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
@@ -232,6 +254,11 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
 
 .user_details--list:first-child {
   font-weight: 700;
+}
+
+.user_details--list .user_details--item {
+  width: max-content;
+  margin: 0 auto;
 }
 
 .user_details--list .user_details--item a {
@@ -762,6 +789,7 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
 
 .messages_convoList-timestamp {
   font-size: 1.35rem;
+  margin-left: 5rem;
 }
 
 .messages_convoList-timestamp,

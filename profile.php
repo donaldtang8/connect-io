@@ -30,7 +30,7 @@ if (isset($_POST['respond_request_friend'])) {
 if (isset($_POST['post_message'])) {
     if (isset($_POST['message_body'])) {
         $body = mysqli_real_escape_string($con, $_POST['message_body']);
-        $date = date("Y-m-d");
+        $date = date("Y-m-d H:i:s");
         $message_obj->sendMessage($username, $body, $date);
     }
 

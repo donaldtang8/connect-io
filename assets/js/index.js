@@ -52,16 +52,19 @@ function getUsers(value, user) {
     }
   );
 }
-
+var dropdown = "";
 function getDropdownData(user, type) {
-  if ($(".dropdown_data_window").css("display") == "none") {
-    let pageName;
+  // if dropdown is hidden, show
+  if ($(".dropdown_data_window").css("visibility") == "hidden") {
+    var pageName;
+    dropdown = type;
     if (type == "notification") {
+      pageName = "ajax_load_notifications.php";
+      $("span").remove("#unread_notification"); // remove notification badge
     } else if (type == "message") {
       pageName = "ajax_load_messages.php";
-      $("span").remove("#unread_message");
+      $("span").remove("#unread_message"); // remove notification badge
     }
-
     let ajaxReq = $.ajax({
       url: "includes/handlers/" + pageName,
       type: "POST",
@@ -70,12 +73,40 @@ function getDropdownData(user, type) {
 
       success: function(response) {
         $(".dropdown_data_window").html(response);
-        $(".dropdown_data_window").css({ display: "flex" });
+        $(".dropdown_data_window").css("visibility", "visible");
         $("#dropdown_data_type").val(type);
       }
     });
   } else {
-    $(".dropdown_data_window").html("");
-    $(".dropdown_data_window").css({ display: "none" });
+    // if dropdown is showing, check if we are accessing a different dropdown
+    // if clicking same dropdown, close
+    if (type == dropdown) {
+      $(".dropdown_data_window").html("");
+      $(".dropdown_data_window").css("visibility", "hidden");
+    }
+    // if accessing other dropdown render dropdown
+    else {
+      var pageName;
+      dropdown = type;
+      if (type == "notification") {
+        pageName = "ajax_load_notifications.php";
+        $("span").remove("#unread_notification"); // remove notification badge
+      } else if (type == "message") {
+        pageName = "ajax_load_messages.php";
+        $("span").remove("#unread_message"); // remove notification badge
+      }
+      let ajaxReq = $.ajax({
+        url: "includes/handlers/" + pageName,
+        type: "POST",
+        data: "page=1&userLoggedIn=" + user,
+        cache: false,
+
+        success: function(response) {
+          $(".dropdown_data_window").html(response);
+          $(".dropdown_data_window").css("visibility", "visible");
+          $("#dropdown_data_type").val(type);
+        }
+      });
+    }
   }
 }
