@@ -14,10 +14,10 @@ if (isset($_POST['cancel'])) {
 
 <div class="container">
     <div class="heading-1">Close Your Account</div>
-    <div>Are you sure you want to close your account? You can re-open your account by logging in</div>
+    <div class="heading-2">Are you sure you want to close your account? You can re-open your account by logging in</div>
 
     <form action="close_account.php" method="POST">
-        <input type="submit" name="close_account" id="closed_account" value="Yes, close account" />
-        <input type="submit" name="cancel" id="update_details" value="Cancel" />
+        <input class="update_details" type="submit" name="close_account" id="closed_account" value="Yes, close account" />
+        <input class="update_details" type="submit" name="cancel" id="update_details" value="Cancel" />
     </form>
 </div>

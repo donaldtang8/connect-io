@@ -42,6 +42,8 @@ if (isset($_POST['update_password'])) {
     } else {
         $password_message = "Password is incorrect";
     }
+} else {
+    $password_message = "";
 }
 
 if (isset($_POST['close_account'])) {

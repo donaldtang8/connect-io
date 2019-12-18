@@ -35,7 +35,7 @@ if ($query != "") {
                         </div>
                         <div class='search_result-text'>
                             <div class='search_result-name'> " . $row['first_name'] . " " . $row['last_name'] . " </div>
-                            <div class='search_result-username'> @" . $row['username'] . " </div>
+                            <div class='search_result-username'> " . $row['username'] . " </div>
                             <div class='search_result-mutual'> " . $mutual_friends . " </div>
                         </div>
                     </a>

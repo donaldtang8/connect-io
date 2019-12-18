@@ -20,7 +20,24 @@ if (isset($_POST["post"])) {
                 </ul>
             </div>
         </div>
-        <div class="home_sidebar--trends">Trends</div>
+        <div class="home_sidebar--trends">
+            <div class="heading-1">Trends</div>
+            <?php
+                                                                                                            $query = mysqli_query($con, "SELECT * FROM trends ORDER BY hits DESC LIMIT 9");
+                                                                                                            // loop through first 9 trending words
+                                                                                                            foreach ($query as $row) {
+                                                                                                                $word = $row['title'];
+                                                                                                                $word_dot = strlen($word) >= 15 ? "..." : "";
+                                                                                                                // trim words to first 15 characters
+                                                                                                                $trimmed_word = str_split($word, 15);
+                                                                                                                $trimmed_word = $trimmed_word[0];
+
+                                                                                                                echo "<div class='trends_word'>";
+                                                                                                                echo $trimmed_word . $word_dot;
+                                                                                                                echo "</div>";
+                                                                                                            }
+            ?>
+        </div>
     </div>
     <div class="home_main">
         <form class="post_form" action="index.php" method="POST">

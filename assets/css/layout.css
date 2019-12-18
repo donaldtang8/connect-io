@@ -1,4 +1,5 @@
 :root {
+  --gray: gray;
   --light-gray: #e8e8e8;
   --dark-gray: #3e3d66;
   --light-color: #fff;
@@ -11,8 +12,8 @@
 
 /* CONTAINER STYLES */
 .container {
-  width: 50%;
-  padding: 5rem 0;
+  width: 60%;
+  padding: 5rem 0 0 0;
   font-size: 1.6rem;
 }
 
@@ -35,6 +36,7 @@
 
 /* TYPOGRAPHY STYLES */
 .heading-1 {
+  text-align: center;
   font-size: 3rem;
 }
 
@@ -193,6 +195,7 @@ nav {
 
 nav .navbar-brand {
   font-size: 2rem;
+  font-weight: 700;
   flex: 0 0 30%;
   margin-right: unset;
   margin-right: 5%;
@@ -210,6 +213,10 @@ nav .navbar-collapse .navbar-nav .nav-item {
   display: flex;
   align-items: center;
   position: relative;
+}
+
+nav .navbar-collapse .navbar-nav .nav-item .nav-link i {
+  color: var(--light-gray);
 }
 
 nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
@@ -274,6 +281,11 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
   margin-left: 1rem;
 }
 
+.search_result .search_result-text .search_result-username,
+.search_result .search_result-text .search_result-mutual {
+  color: var(--gray);
+}
+
 .search_results_footer {
   text-align: center;
   padding: 0.5rem 0;
@@ -324,7 +336,6 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
 .home,
 .messages {
   height: 94vh;
-  padding-top: 5rem;
   font-size: 1.6rem;
   display: grid;
   grid-template-columns:
@@ -465,6 +476,11 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
   border-radius: 50%;
   height: 5rem;
   width: 5rem;
+}
+
+.post_item-video {
+  width: 100%;
+  height: 35rem;
 }
 
 .post_item .post_item-header {
@@ -1026,6 +1042,7 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
 }
 
 .message_submit {
+  font-size: 1.5rem;
   width: 10%;
   background: var(--primary-color);
   color: var(--light-color);
@@ -1147,7 +1164,43 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
 }
 
 /* SETTINGS PAGE */
-.settings_details form input {
-  display: block;
+.settings_details {
+  border-radius: 1rem;
 }
 
+.settings_details form {
+  margin: 2rem auto;
+}
+
+.settings_details form input {
+  display: block;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  width: 25vw;
+}
+
+.settings_details .heading-2 {
+  text-align: center;
+}
+
+.settings_item {
+  width: max-content;
+  margin: auto;
+}
+
+.settings_error {
+  text-align: center;
+}
+
+.update_details {
+  margin: 0 auto;
+  margin-top: 1rem;
+  background: var(--dark-color);
+  color: var(--light-color);
+  display: block;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  width: 25vw;
+}
