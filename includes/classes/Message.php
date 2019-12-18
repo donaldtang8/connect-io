@@ -242,6 +242,16 @@ class Message
     {
         $userLoggedIn = $this->user_obj->getUsername();
         $query = mysqli_query($this->con, "SELECT * FROM messages WHERE opened='no' AND user_to='$userLoggedIn'");
-        return mysqli_num_rows($query);
+        $users_in_array = array();
+        $count = 0;
+        while ($row = mysqli_fetch_array($query)) {
+            // if we haven't encountered the convo yet increment count and add to array
+            if (!in_array($row['user_to'], $users_in_array)) {
+                $count++;
+                array_push($users_in_array, $row['user_to']);
+            }
+        }
+        // return mysqli_num_rows($query);
+        return $count;
     }
 }

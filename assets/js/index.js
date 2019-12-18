@@ -1,4 +1,7 @@
 $(document).ready(function() {
+  $("search_button").on("click", function() {
+    document.search_form.submit();
+  });
   // register page
   $(".redirect-reg").on("click", function() {
     state = "reg";
@@ -43,6 +46,27 @@ $(document).ready(function() {
   });
 });
 
+$(document).click(function(e) {
+  if (
+    e.target.class != "search_results" &&
+    e.target.id != "search_text_input"
+  ) {
+    $(".search_results").html("");
+    $(".search_results_footer").html("");
+    $(".search_results_footer").toggleClass("search_results_footer_empty");
+    $(".search_results_footer").toggleClass("search_results_footer");
+  }
+
+  if (e.target.class != "dropdown_data_window") {
+    $(".dropdown_data_window").html("");
+    if ($(".dropdown_data_window").css("visibility") == "hidden") {
+      $(".dropdown_data_window").css("visibility", "visible");
+    } else {
+      $(".dropdown_data_window").css("visibility", "hidden");
+    }
+  }
+});
+
 function getUsers(value, user) {
   $.post(
     "includes/handlers/ajax_friend_search.php",
@@ -52,6 +76,7 @@ function getUsers(value, user) {
     }
   );
 }
+
 var dropdown = "";
 function getDropdownData(user, type) {
   // if dropdown is hidden, show
@@ -109,4 +134,33 @@ function getDropdownData(user, type) {
       });
     }
   }
+}
+
+function getLiveSearchUsers(value, user) {
+  // make ajax call with two parameters (query, user)
+  $.post(
+    "includes/handlers/ajax_search.php",
+    { query: value, userLoggedIn: user },
+    function(data) {
+      // toggle footer
+      if ($(".search_results_footer_empty")[0]) {
+        $(".search_results_footer_empty").toggleClass("search_results_footer");
+        $(".search_results_footer_empty").toggleClass(
+          "search_results_footer_empty"
+        );
+      }
+      // populate results div with results
+      $(".search_results").html(data);
+      $(".search_results_footer").html(
+        "<a href='search.php?q=" + value + "'> See All Results</a>"
+      );
+
+      // if no results returned
+      if (data == "") {
+        $(".search_results_footer").html("");
+        $(".search_results_footer").toggleClass("search_results_footer_empty");
+        $(".search_results_footer").toggleClass("search_results_footer");
+      }
+    }
+  );
 }

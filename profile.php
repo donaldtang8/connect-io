@@ -57,34 +57,35 @@ if (isset($_POST['post_message'])) {
             <!-- <div class="profile_info-item"><?php echo "Likes: " . $user_array['num_likes']; ?></div> -->
         </div>
         <div class="profile_friend">
+            <?php
+                                                $logged_in_user_obj = new User($con, $userLoggedIn);
+                                                if ($userLoggedIn != $username) {
+                                                    echo '<div class="profile_info_bottom">';
+                                                    echo $logged_in_user_obj->getMutualFriends($username) . " mutual friends";
+                                                    echo '</div>';
+                                                }
+            ?>
             <form action="<?php echo $username; ?>" method="POST">
                 <?php $profile_user_obj = new User($con, $username);
-                if ($profile_user_obj->isClosed()) {
-                    header("Location: user_closed.php");
-                }
+                                                if ($profile_user_obj->isClosed()) {
+                                                    header("Location: user_closed.php");
+                                                }
 
-                $logged_in_user_obj = new User($con, $userLoggedIn);
-                // check if user that is logged in is already friends with the user on profile
-                if ($userLoggedIn != $username) {
-                    if ($logged_in_user_obj->isFriend($username)) {
-                        echo '<input class="btn btn-friend" type="submit" name="remove_friend" value="Remove Friend" />';
-                    } else if ($logged_in_user_obj->didReceiveRequest($username)) {
-                        echo '<input class="btn btn-friend" type="submit" name="respond_request_friend" value="Respond to request" />';
-                    } else if ($logged_in_user_obj->didSendRequest($username)) {
-                        echo '<input class="btn btn-friend" type="submit" name="" value="Request pending" />';
-                    } else {
-                        echo '<input class="btn btn-friend" type="submit" name="add_friend" value="Add Friend" />';
-                    }
-                }
+
+                                                // check if user that is logged in is already friends with the user on profile
+                                                if ($userLoggedIn != $username) {
+                                                    if ($logged_in_user_obj->isFriend($username)) {
+                                                        echo '<input class="btn btn-friend" type="submit" name="remove_friend" value="Remove Friend" />';
+                                                    } else if ($logged_in_user_obj->didReceiveRequest($username)) {
+                                                        echo '<input class="btn btn-friend" type="submit" name="respond_request_friend" value="Respond to request" />';
+                                                    } else if ($logged_in_user_obj->didSendRequest($username)) {
+                                                        echo '<input class="btn btn-friend" type="submit" name="" value="Request pending" />';
+                                                    } else {
+                                                        echo '<input class="btn btn-friend" type="submit" name="add_friend" value="Add Friend" />';
+                                                    }
+                                                }
                 ?>
             </form>
-            <?php
-            if ($userLoggedIn != $username) {
-                echo '<div class="profile_info_bottom">';
-                echo $logged_in_user_obj->getMutualFriends($username) . " mutual friends";
-                echo '</div>';
-            }
-            ?>
         </div>
     </div>
     <div class="profile_main">
@@ -110,10 +111,10 @@ if (isset($_POST['post_message'])) {
             </div>
             <div class="tab-pane" id="messages">
                 <?php
-                echo "<div class='heading-1'>You and <a href='" . $username . "'>" . $profile_user_obj->getFirstAndLastName() . "</a><hr></div>";
-                echo "<div class='loaded_messages scroll_messages' id='scroll_messages'>";
-                echo $message_obj->getMessages($username);
-                echo "</div>";
+                                                echo "<div class='heading-1'>You and <a href='" . $username . "'>" . $profile_user_obj->getFirstAndLastName() . "</a><hr></div>";
+                                                echo "<div class='loaded_messages scroll_messages' id='scroll_messages'>";
+                                                echo $message_obj->getMessages($username);
+                                                echo "</div>";
                 ?>
 
                 <div class="message_post">

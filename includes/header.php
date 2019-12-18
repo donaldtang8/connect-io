@@ -60,10 +60,19 @@ else {
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <div class="search">
+            <form action="search.php" method="GET" name="search_form">
+                <input class="search_input" type="text" onkeyup="getLiveSearchUsers(this.value, '<?php echo $userLoggedIn; ?>')" name="q" placeholder="Search" autocomplete="off" id="search_text_input" />
+                <div class="search_button">
+                    <div></div>
+                </div>
+            </form>
+        </div>
+
+        <div class="search_result-container">
+            <div class="search_results"></div>
+            <div class="search_results_footer_empty"></div>
+        </div>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
@@ -78,8 +87,8 @@ else {
                     <a class="nav-link" href="requests.php">
                         <i class="fas fa-users fa-lg"></i>
                         <?php
-                                                                                        if ($num_requests > 0)
-                                                                                            echo '<span class="notification_badge" id="unread_requests">' . $num_requests . '</span>';
+                                                                                                    if ($num_requests > 0)
+                                                                                                        echo '<span class="notification_badge" id="unread_requests">' . $num_requests . '</span>';
                         ?>
                     </a>
                 </li>
@@ -87,8 +96,8 @@ else {
                     <a class="nav-link" href="javascript:void(0);" onclick="getDropdownData('<?php echo $userLoggedIn; ?>', 'message')">
                         <i class="fas fa-comment fa-lg"></i>
                         <?php
-                                                                                                if ($num_messages > 0)
-                                                                                                    echo '<span class="notification_badge" id="unread_message">' . $num_messages . '</span>';
+                                                                                                    if ($num_messages > 0)
+                                                                                                        echo '<span class="notification_badge" id="unread_message">' . $num_messages . '</span>';
                         ?>
                     </a>
                 </li>
@@ -96,13 +105,13 @@ else {
                     <a class="nav-link" href="javascript:void(0);" onclick="getDropdownData('<?php echo $userLoggedIn; ?>', 'notification')">
                         <i class="fas fa-bell fa-lg"></i>
                         <?php
-                                                                                                if ($num_notifications > 0)
-                                                                                                    echo '<span class="notification_badge" id="unread_notification">' . $num_notifications . '</span>';
+                                                                                                    if ($num_notifications > 0)
+                                                                                                        echo '<span class="notification_badge" id="unread_notification">' . $num_notifications . '</span>';
                         ?>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-cog fa-lg"></i></a>
+                    <a class="nav-link" href="settings.php"><i class="fas fa-cog fa-lg"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="includes/handlers/logout.php"><i class="fas fa-sign-out-alt fa-lg"></i></a>
