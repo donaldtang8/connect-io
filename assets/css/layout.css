@@ -478,6 +478,10 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
   width: 5rem;
 }
 
+.post_item-image img {
+  width: 100%;
+}
+
 .post_item-video {
   width: 100%;
   height: 35rem;

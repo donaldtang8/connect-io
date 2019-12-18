@@ -2,10 +2,48 @@
 include("includes/header.php");
 
 if (isset($_POST["post"])) {
-    $post = new Post($con, $userLoggedIn);
-    $post->submitPost($_POST["post_text"], "none");
-    header("Location: index.php");
+
+    $uploadStatus = 1;
+    $imageName = $_FILES['fileToUpload']['name'];   // retrieve name of file posted
+    $errorMessage = "";
+
+    // if image uploaded
+    if ($imageName != "") {
+        $targetDir = "assets/images/posts/";
+        $imageName = $targetDir . uniqid() . basename($imageName);
+        $imageFileType = pathinfo($imageName, PATHINFO_EXTENSION);
+
+        // check if image greater than max size allowed
+        if ($_FILES['fileToUpload']['size'] > 2097152) {
+            $errorMessage = "File too large";
+            $uploadStatus = 0;
+        }
+
+        // check file type
+        if (strtolower($imageFileType) != "jpeg" && strtolower($imageFileType) != "png" && strtolower($imageFileType) != "jpg") {
+            $errorMessage = "Only jpeg, jpg, and png files allowed";
+            $uploadStatus = 0;
+        }
+
+        if ($uploadStatus) {
+            if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $imageName)) {
+                // image uploaded successfully
+            } else {
+                // image did not upload
+                $uploadStatus = 0;
+            }
+        }
+    }
+
+    if ($uploadStatus) {
+        $post = new Post($con, $userLoggedIn);
+        $post->submitPost($_POST["post_text"], "none", $imageName);
+    } else {
+        echo "<div>$errorMessage</div>";
+    }
 }
+
+
 ?>
 <div class="home">
     <div class="home_sidebar">
@@ -21,7 +59,7 @@ if (isset($_POST["post"])) {
             </div>
         </div>
         <div class="home_sidebar--trends">
-            <div class="heading-1">Trends</div>
+            <div class="heading-2">Popular Trends</div>
             <?php
                                                                                                             $query = mysqli_query($con, "SELECT * FROM trends ORDER BY hits DESC LIMIT 9");
                                                                                                             // loop through first 9 trending words
@@ -40,9 +78,10 @@ if (isset($_POST["post"])) {
         </div>
     </div>
     <div class="home_main">
-        <form class="post_form" action="index.php" method="POST">
+        <form class="post_form" action="index.php" method="POST" enctype="multipart/form-data">
             <a class="post_pic" href="<?php echo $userLoggedIn ?>"> <img src="<?php echo $user["profile_pic"]; ?>" alt="<?php echo $user["first_name"] . " " . $user["last_name"]; ?>"></a>
             <textarea class="post_text" name="post_text" id="post_text" placeholder="What are you up to today?" minlength="1" required></textarea>
+            <input type="file" name="fileToUpload" id="fileToUpload" />
             <input class="btn btn-primary post_button" type="submit" name="post" id="post_button" value="Post">
         </form>
         <hr />

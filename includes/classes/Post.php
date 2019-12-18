@@ -12,21 +12,21 @@ class Post
         $this->user_obj = new User($con, $user);
     }
 
-    public function submitPost($body, $user_to)
+    public function submitPost($body, $user_to, $imageName)
     {
         $body = strip_tags($body);  // removes html tags
         $body = mysqli_real_escape_string($this->con, $body);    // escapes special escape characters
 
-        $body = str_replace("\r\n", "\n", $body);               // replace new line with line breaks
+        $body = str_replace('\r\n', "\n", $body);               // replace new line with line breaks
         $body = nl2br($body);
 
-        $check_empty = preg_replace("/\s+/", "", $body);        // replaces all spaces with "", so this will remove all spaces
+        $check_empty = preg_replace('/\s+/', "", $body);        // replaces all spaces with "", so this will remove all spaces
         // check if string is empty after removing all spaces
         if ($check_empty != "") {
 
             // split body at the spaces into words and put them in an array
             // ex. if someone posts: "Check this out! [youtube link]" Then we want an array with [Check, this, out!, [youtube link]]
-            $body_array = preg_split("/\s+/", $body);
+            $body_array = preg_split('/\s+/', $body);
             foreach($body_array as $key => $value) {
                 // check if there is a youtube link in body
                 if(strpos($value, "www.youtube.com/watch?v=") !== false) {
@@ -52,7 +52,7 @@ class Post
             }
 
             // insert post to the database
-            $query = mysqli_query($this->con, "INSERT INTO posts VALUES('', '$body', '$added_by', '$user_to', '$date_added', 'no', 'no', '0')");
+            $query = mysqli_query($this->con, "INSERT INTO posts VALUES('', '$body', '$added_by', '$user_to', '$date_added', 'no', 'no', '0', '$imageName')");
             // returns id of post just inserted
             $returned_id = mysqli_insert_id($this->con);
 
@@ -167,6 +167,7 @@ class Post
                 $body = $row['body'];
                 $added_by = $row['added_by'];
                 $date_time = $row['date_added'];
+                $imagePath = $row['image'];
 
                 // prepare user_to string so it can be included even if not posted to a user
                 if ($row['user_to'] == "none") {
@@ -278,6 +279,14 @@ class Post
                                             $time_message = $interval->s . " seconds ago";
                                         }
                                     }
+                                    // if post has image, create div element for it
+                                    if ($imagePath != "") {
+                                        $imageDiv = "<div class='post_item-image'>
+                                                        <img src='$imagePath' />
+                                                    </div>";
+                                    } else {
+                                        $imageDiv = "";
+                                    }
 
                                     $str .= "<div class='post_item' onClick='toggle$id();'>
                         <div class='post_item-pic'>
@@ -295,6 +304,7 @@ class Post
                         </div>
                         <div class='post_item-body'>
                             $body
+                            $imageDiv
                         </div>
                         <div class='post_item-actions'>
                             <div class='post_comment'><i class='fas fa-comment-alt'></i><div class='post_item-numComments'>$comments_num</div></div>
