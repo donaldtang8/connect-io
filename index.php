@@ -1,15 +1,27 @@
 <?php
 include("includes/header.php");
-
+$errorMessage = "";
 if (isset($_POST["post"])) {
 
     $uploadStatus = 1;
     $imageName = $_FILES['fileToUpload']['name'];   // retrieve name of file posted
     $errorMessage = "";
 
+    // if post text or image is empty, put error
+    if (strlen($_POST["post_text"]) == 0 && $imageName == "") {
+        $errorMessage = "Post content cannot be empty.";
+    }
+
     // if image uploaded
     if ($imageName != "") {
+
+        // check if text is empty
+        if (strlen($_POST["post_text"]) == 0) {
+            $errorMessage = "Post content cannot be empty.";
+        }
+
         $targetDir = "assets/images/posts/";
+        $imageNameOld = $imageName;
         $imageName = $targetDir . uniqid() . basename($imageName);
         $imageFileType = pathinfo($imageName, PATHINFO_EXTENSION);
 
@@ -28,21 +40,25 @@ if (isset($_POST["post"])) {
         if ($uploadStatus) {
             if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $imageName)) {
                 // image uploaded successfully
+                $errorMessage = "Uploaded " . $imageNameOld;
             } else {
                 // image did not upload
                 $uploadStatus = 0;
+                $errorMessage = "Error uploading image";
             }
+        } else {
+            $errorMessage = "Error uploading image";
         }
     }
 
     if ($uploadStatus) {
         $post = new Post($con, $userLoggedIn);
         $post->submitPost($_POST["post_text"], "none", $imageName);
+        $errorMessage = "Uploaded " . $imageName;
     } else {
-        echo "<div>$errorMessage</div>";
+        echo "";
     }
 }
-
 
 ?>
 <div class="home">
@@ -80,9 +96,10 @@ if (isset($_POST["post"])) {
     <div class="home_main">
         <form class="post_form" action="index.php" method="POST" enctype="multipart/form-data">
             <a class="post_pic" href="<?php echo $userLoggedIn ?>"> <img src="<?php echo $user["profile_pic"]; ?>" alt="<?php echo $user["first_name"] . " " . $user["last_name"]; ?>"></a>
-            <textarea class="post_text" name="post_text" id="post_text" placeholder="What are you up to today?" minlength="1" required></textarea>
-            <input type="file" name="fileToUpload" id="fileToUpload" />
+            <textarea class="post_text" name="post_text" id="post_text" placeholder="What are you up to today?"></textarea>
+            <div class="post_upload_file"><i class="far fa-image fa-lg"></i><input type="file" name="fileToUpload" class="fileToUpload" id="fileToUpload" /></div>
             <input class="btn btn-primary post_button" type="submit" name="post" id="post_button" value="Post">
+            <div class="post_upload_file-error"><?php echo $errorMessage; ?></div>
         </form>
         <hr />
         <div class="posts">

@@ -6,5 +6,5 @@ include("../classes/Notification.php");
 
 if (isset($_POST['profile_post-body'])) {
     $post = new Post($con, $_POST['user_from']);
-    $post->submitPost($_POST['profile_post-body'], $_POST['user_to']);
+    $post->submitPost($_POST['profile_post-body'], $_POST['user_to'], "");
 }

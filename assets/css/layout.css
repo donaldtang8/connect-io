@@ -72,6 +72,11 @@ a:hover {
   border-color: var(--primary-color);
 }
 
+.btn-secondary {
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
 .btn-friend {
   font-size: 1.35rem;
   font-weight: 500;
@@ -487,6 +492,32 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
   height: 35rem;
 }
 
+.post_upload_file {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.fileToUpload:hover {
+  cursor: pointer;
+}
+
+.post_upload_file input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.post_upload_file-error {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
 .post_item .post_item-header {
   grid-column: 2 / -1;
   grid-row: 0 / 1;
@@ -620,6 +651,7 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
 
 .post_item-comments iframe {
   width: 100%;
+  height: min-content;
 }
 
 .post_item-commentForm {
@@ -651,10 +683,7 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
   font-family: "Nunito", sans-serif;
   font-size: 62.5%;
   font-size: 0.8rem;
-}
-
-.comment_section-body:last-child {
-  margin-bottom: 1.5rem;
+  margin: 1.5rem;
 }
 
 .comment_item {
@@ -734,6 +763,10 @@ nav .navbar-collapse .navbar-nav .nav-item .nav-pic {
 
 .comment_postComment .post_item-commentForm {
   margin-left: 1rem;
+}
+
+.comment_item-error {
+  text-align: center;
 }
 
 /* PROFILE PAGE STYLES */

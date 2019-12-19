@@ -311,7 +311,7 @@ class Post
                             <iframe class='post_item-likeIFrame' src='like.php?post_id=$id' frameborder='0' scrolling='no'></iframe>
                         </div>
                         <div class='post_item-comments' id='toggleComment$id' style='display:none;'>
-                            <iframe class='post_item-commentIFrame' src='comment_frame.php?post_id=$id' id='post_item-commentIFrame' frameborder='0' scrolling='no'></iframe>
+                            <iframe class='post_item-commentIFrame' src='comment_frame.php?post_id=$id' id='post_item-commentIFrame' frameborder='0'></iframe>
                         </div>
                     </div>
                     <hr>";
