@@ -1,4 +1,4 @@
-# connect-io
+# :speech_balloon: connect-io
 
 Social media platform built on AMP stack featuring friend system, direct messages, notifications, and profiles
 
